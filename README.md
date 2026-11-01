@@ -1,6 +1,6 @@
 # Database Internals in C
 
-Three core pieces of a database storage engine, written in C on top of a page-level buffer manager: a **heap file**, a **disk-resident B+ tree index**, and an **external merge sort**.
+Three core pieces of a database storage engine, written in C on top of a page-level buffer manager: a **heap file**, a **disk-resident B+ tree index**, and an **external merge sort**. Implemented for the 'implementation and design of databases' course, and built upon a provided library (BF) that simulates real memory.
 
 Nothing here touches a file directly. Every byte is read and written through fixed-size 512-byte blocks that have to be *pinned* in a buffer pool of only 100 blocks, marked dirty when modified, and *unpinned* when done. That's the constraint a real DBMS works under. It turns the classic data structures into page layouts: a B+ tree node isn't a struct joined to others by pointers but a block that refers to other blocks by number. Sorting a file that doesn't fit in memory becomes a matter of streaming runs through a handful of buffer pages.
 
